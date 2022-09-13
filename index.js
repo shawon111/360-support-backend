@@ -63,6 +63,11 @@ async function run() {
     await client.connect();
     const database = client.db('project-360');
     const bannerCollection = database.collection('banner_data');
+    const featuresCollection = database.collection('home_features');
+    const reviewCollection = database.collection('client_review');
+    const titlesCollection = database.collection('section_titles');
+    const agentContactCollection = database.collection('contact_agent');
+    const careerInfoContactCollection = database.collection('career_page_info');
 
     app.get('/slider', async (req, res)=>{
         const cursor = bannerCollection.find({});
@@ -73,6 +78,52 @@ async function run() {
             res.json(result)
           }
     })
+    app.get('/features', async (req, res)=>{
+        const cursor = featuresCollection.find({});
+        const result = await cursor.toArray();
+        if ((result.length) === 0) {
+            res.json("No documents found!")
+          } else {
+            res.json(result)
+          }
+    })
+    app.get('/review', async (req, res)=>{
+        const cursor = reviewCollection.find({});
+        const result = await cursor.toArray();
+        if ((result.length) === 0) {
+            res.json("No documents found!")
+          } else {
+            res.json(result)
+          }
+    })
+    app.get('/titles', async (req, res)=>{
+        const cursor = titlesCollection.find({});
+        const result = await cursor.toArray();
+        if ((result.length) === 0) {
+            res.json("No documents found!")
+          } else {
+            res.json(result)
+          }
+    });
+    app.get('/contact-agent', async (req, res)=>{
+        const cursor = agentContactCollection.find({});
+        const result = await cursor.toArray();
+        if ((result.length) === 0) {
+            res.json("No documents found!")
+          } else {
+            res.json(result)
+          }
+    });
+    app.get('/career-info', async (req, res)=>{
+        const query = {_id: ObjectId("6320ee02edfa774249a946bc")};
+        const cursor = careerInfoContactCollection.findOne(query);
+        const result = await cursor;
+        if ((result.length) === 0) {
+            res.json("No documents found!")
+          } else {
+            res.json(result)
+          }
+    });
 
     app.use((err, req, res, next) => {
       if (err) {
