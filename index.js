@@ -69,6 +69,7 @@ async function run() {
     const agentContactCollection = database.collection('contact_agent');
     const careerInfoContactCollection = database.collection('career_page_info');
     const careerSidebarContactCollection = database.collection('career_sidebar');
+    const aboutContactCollection = database.collection('about_info');
 
     app.get('/slider', async (req, res)=>{
         const cursor = bannerCollection.find({});
@@ -128,6 +129,16 @@ async function run() {
     app.get('/career-sidebar', async (req, res)=>{
         const query = {_id: ObjectId("63217c3eedfa7742497b5067")};
         const cursor = careerSidebarContactCollection.findOne(query);
+        const result = await cursor;
+        if ((result.length) === 0) {
+            res.json("No documents found!")
+          } else {
+            res.json(result)
+          }
+    });
+    app.get('/about', async (req, res)=>{
+        const query = {_id: ObjectId("63218480edfa77424987c834")};
+        const cursor = aboutContactCollection.findOne(query);
         const result = await cursor;
         if ((result.length) === 0) {
             res.json("No documents found!")
