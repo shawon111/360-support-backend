@@ -67,9 +67,11 @@ async function run() {
     const reviewCollection = database.collection('client_review');
     const titlesCollection = database.collection('section_titles');
     const agentContactCollection = database.collection('contact_agent');
-    const careerInfoContactCollection = database.collection('career_page_info');
-    const careerSidebarContactCollection = database.collection('career_sidebar');
-    const aboutContactCollection = database.collection('about_info');
+    const careerInfoCollection = database.collection('career_page_info');
+    const careerSidebarCollection = database.collection('career_sidebar');
+    const aboutCollection = database.collection('about_info');
+    const servicesCollection = database.collection('services');
+    const contactCollection = database.collection('contact');
 
     app.get('/slider', async (req, res)=>{
         const cursor = bannerCollection.find({});
@@ -118,7 +120,7 @@ async function run() {
     });
     app.get('/career-info', async (req, res)=>{
         const query = {_id: ObjectId("6320ee02edfa774249a946bc")};
-        const cursor = careerInfoContactCollection.findOne(query);
+        const cursor = careerInfoCollection.findOne(query);
         const result = await cursor;
         if ((result.length) === 0) {
             res.json("No documents found!")
@@ -128,7 +130,7 @@ async function run() {
     });
     app.get('/career-sidebar', async (req, res)=>{
         const query = {_id: ObjectId("63217c3eedfa7742497b5067")};
-        const cursor = careerSidebarContactCollection.findOne(query);
+        const cursor = careerSidebarCollection.findOne(query);
         const result = await cursor;
         if ((result.length) === 0) {
             res.json("No documents found!")
@@ -138,7 +140,7 @@ async function run() {
     });
     app.get('/about', async (req, res)=>{
         const query = {_id: ObjectId("63218480edfa77424987c834")};
-        const cursor = aboutContactCollection.findOne(query);
+        const cursor = aboutCollection.findOne(query);
         const result = await cursor;
         if ((result.length) === 0) {
             res.json("No documents found!")
@@ -146,7 +148,27 @@ async function run() {
             res.json(result)
           }
     });
-
+    app.get('/services', async (req, res)=>{
+        const query = {_id: ObjectId("63232897edfa774249098284")};
+        const cursor = servicesCollection.findOne(query);
+        const result = await cursor;
+        if ((result.length) === 0) {
+            res.json("No documents found!")
+          } else {
+            res.json(result)
+          }
+    });
+    app.get('/contact', async (req, res)=>{
+        const query = {_id: ObjectId("632330f3edfa77424916eb67")};
+        const cursor = contactCollection.findOne(query);
+        const result = await cursor;
+        if ((result.length) === 0) {
+            res.json("No documents found!")
+          } else {
+            res.json(result)
+          }
+    });
+    
     app.use((err, req, res, next) => {
       if (err) {
         res.status(500).send(err.message)
