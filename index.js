@@ -220,7 +220,7 @@ async function run() {
           number
         }
       };
-      const result = await bannerCollection.updateOne(filter, updateDoc);
+      const result = await agentContactCollection.updateOne(filter, updateDoc);
       res.json(result)
     });
     app.get('/career-info', async (req, res) => {
