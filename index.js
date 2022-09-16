@@ -128,6 +128,49 @@ async function run() {
         res.json(result)
       }
     });
+    app.put('/update-career-info', async (req, res) => {
+      const data = req.body;
+      const { _id,
+        pageTitle,
+        pageDesc,
+        teleMarketResponsobilityTitle,
+        teleMarketResponsobilities,
+        teleMarketrequireTitle,
+        teleMarketrequirements,
+        locationAddress,
+        locationTitle,
+        salaryAmount,
+        salaryTitle,
+        benefitsTitle,
+        benefitsDesc,
+        emailAddress,
+        emailTitle,
+        mailSubjectDetail,
+        mailSubjectTitle } = data;
+      const filter = { _id: ObjectId(_id) }
+      const updateDoc = {
+        $set: {
+          pageTitle,
+          pageDesc,
+          teleMarketResponsobilityTitle,
+          teleMarketResponsobilities,
+          teleMarketrequireTitle,
+          teleMarketrequirements,
+          locationAddress,
+          locationTitle,
+          salaryAmount,
+          salaryTitle,
+          benefitsTitle,
+          benefitsDesc,
+          emailAddress,
+          emailTitle,
+          mailSubjectDetail,
+          mailSubjectTitle
+        }
+      };
+      const result = await careerInfoCollection.updateOne(filter, updateDoc);
+      res.json(result)
+    })
     app.get('/career-sidebar', async (req, res) => {
       const query = { _id: ObjectId("63217c3eedfa7742497b5067") };
       const cursor = careerSidebarCollection.findOne(query);
@@ -138,6 +181,31 @@ async function run() {
         res.json(result)
       }
     });
+    app.put('update-career-sidebar', async (req, res) => {
+      const data = req.body;
+      const { _id,
+        sidebarCountryName,
+        officeAddressTitle,
+        officeAddressDesc,
+        officeHoursTitle,
+        officeHoursDesc,
+        sidebarPhone,
+        sidebarEmail } = data;
+      const filter = { _id: ObjectId(_id) };
+      const updateDoc = {
+        $set: {
+          sidebarCountryName,
+          officeAddressTitle,
+          officeAddressDesc,
+          officeHoursTitle,
+          officeHoursDesc,
+          sidebarPhone,
+          sidebarEmail
+        }
+      };
+      const result = await careerSidebarCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    })
     app.get('/about', async (req, res) => {
       const query = { _id: ObjectId("63218480edfa77424987c834") };
       const cursor = aboutCollection.findOne(query);
@@ -148,15 +216,15 @@ async function run() {
         res.json(result)
       }
     });
-    app.put('/update-about', async (req, res)=>{
+    app.put('/update-about', async (req, res) => {
       const data = req.body;
-      const {_id, aboutTitle, aboutDesc, aboutAuthor} = data;
-      const filter = {_id : ObjectId(_id)}
+      const { _id, aboutTitle, aboutDesc, aboutAuthor } = data;
+      const filter = { _id: ObjectId(_id) }
       const updateDoc = {
         $set: {
-            aboutTitle,
-            aboutDesc,
-            aboutAuthor
+          aboutTitle,
+          aboutDesc,
+          aboutAuthor
         }
       };
       const result = await aboutCollection.updateOne(filter, updateDoc);
@@ -173,18 +241,18 @@ async function run() {
       }
     });
 
-    app.put('/update-services', async (req, res)=>{
+    app.put('/update-services', async (req, res) => {
       const data = req.body;
-      const {_id, serviceOneTitle, serviceOnedesc, serviceTwoTitle, serviceTwoDesc, serviceThreeTitle, serviceThreedesc} = data;
-      const filter = {_id: ObjectId(_id)};
+      const { _id, serviceOneTitle, serviceOnedesc, serviceTwoTitle, serviceTwoDesc, serviceThreeTitle, serviceThreedesc } = data;
+      const filter = { _id: ObjectId(_id) };
       const updateDoc = {
-        $set:{
-            serviceOneTitle,
-            serviceOnedesc,
-            serviceTwoTitle,
-            serviceTwoDesc,
-            serviceThreeTitle,
-            serviceThreedesc
+        $set: {
+          serviceOneTitle,
+          serviceOnedesc,
+          serviceTwoTitle,
+          serviceTwoDesc,
+          serviceThreeTitle,
+          serviceThreedesc
         }
       };
       const result = await servicesCollection.updateOne(filter, updateDoc);
@@ -221,8 +289,6 @@ async function run() {
         },
       };
       const result = await contactCollection.updateOne(filter, updateDoc);
-
-      console.log(result);
       res.json(result)
     })
 
