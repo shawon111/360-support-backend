@@ -181,7 +181,7 @@ async function run() {
         res.json(result)
       }
     });
-    app.put('update-career-sidebar', async (req, res) => {
+    app.put('/update-career-sidebar', async (req, res) => {
       const data = req.body;
       const { _id,
         sidebarCountryName,
