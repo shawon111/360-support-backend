@@ -72,6 +72,7 @@ async function run() {
     const aboutCollection = database.collection('about_info');
     const servicesCollection = database.collection('services');
     const contactCollection = database.collection('contact');
+    const authCollection = database.collection('authentication_001_auth');
 
     app.get('/slider', async (req, res) => {
       const cursor = bannerCollection.findOne({ _id: ObjectId("63249f4aedfa774249454c95") });
@@ -395,6 +396,18 @@ async function run() {
       };
       const result = await contactCollection.updateOne(filter, updateDoc);
       res.json(result)
+    })
+
+    // get api for admin login
+    app.get('/admin-login', async (req, res)=>{
+      const data = req.query;
+      const cursor = authCollection.findOne({_id: ObjectId("6324d3b711440911952a8f20")});
+      const result = await cursor;
+      if(data.email == result.email && data.pass == result.password){
+        res.json({login: true})
+      }else{
+        res.json({login: false})
+      }
     })
 
     app.use((err, req, res, next) => {
