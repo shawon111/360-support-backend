@@ -74,49 +74,154 @@ async function run() {
     const contactCollection = database.collection('contact');
 
     app.get('/slider', async (req, res) => {
-      const cursor = bannerCollection.find({});
-      const result = await cursor.toArray();
-      if ((result.length) === 0) {
-        res.json("No documents found!")
-      } else {
-        res.json(result)
-      }
-    })
-    app.get('/features', async (req, res) => {
-      const cursor = featuresCollection.find({});
-      const result = await cursor.toArray();
-      if ((result.length) === 0) {
-        res.json("No documents found!")
-      } else {
-        res.json(result)
-      }
-    })
-    app.get('/review', async (req, res) => {
-      const cursor = reviewCollection.find({});
-      const result = await cursor.toArray();
-      if ((result.length) === 0) {
-        res.json("No documents found!")
-      } else {
-        res.json(result)
-      }
-    })
-    app.get('/titles', async (req, res) => {
-      const cursor = titlesCollection.find({});
-      const result = await cursor.toArray();
+      const cursor = bannerCollection.findOne({ _id: ObjectId("63249f4aedfa774249454c95") });
+      const result = await cursor;
       if ((result.length) === 0) {
         res.json("No documents found!")
       } else {
         res.json(result)
       }
     });
-    app.get('/contact-agent', async (req, res) => {
-      const cursor = agentContactCollection.find({});
-      const result = await cursor.toArray();
+    app.put('/update-slider', async (req, res) => {
+      const data = req.body;
+      const {
+        _id,
+        titleOne,
+        titleTwo,
+        titleThree,
+        titleFour,
+        titleFive,
+      } = data;
+      const filter = { _id: ObjectId(_id) };
+      const updateDoc = {
+        $set: {
+          titleOne,
+          titleTwo,
+          titleThree,
+          titleFour,
+          titleFive,
+        }
+      };
+      const result = await bannerCollection.updateOne(filter, updateDoc);
+      res.json(result)
+    });
+    app.get('/features', async (req, res) => {
+      const cursor = featuresCollection.findOne({ _id: ObjectId("6324a20311440911952a8f1e") });
+      const result = await cursor;
       if ((result.length) === 0) {
         res.json("No documents found!")
       } else {
         res.json(result)
       }
+    })
+    app.put('/update-feature', async (req, res) => {
+      const data = req.body;
+      const {
+        _id,
+        titleOne,
+        titleTwo,
+        titleThree,
+        descOne,
+        descTwo,
+        descThree,
+      } = data;
+      const filter = { _id: ObjectId(_id) };
+      const updateDoc = {
+        $set: {
+          titleOne,
+          titleTwo,
+          titleThree,
+          descOne,
+          descTwo,
+          descThree,
+        }
+      };
+      const result = await featuresCollection.updateOne(filter, updateDoc);
+      res.json(result)
+    });
+    app.get('/review', async (req, res) => {
+      const cursor = reviewCollection.findOne({ _id: ObjectId("6324a3f311440911952a8f1f") });
+      const result = await cursor;
+      if ((result.length) === 0) {
+        res.json("No documents found!")
+      } else {
+        res.json(result)
+      }
+    })
+    app.put('/update-review', async (req, res) => {
+      const data = req.body;
+      const {
+        _id,
+        nameOne,
+        nameTwo,
+        nameThree,
+        reviewOne,
+        reviewTwo,
+        reviewThree
+      } = data;
+      const filter = { _id: ObjectId(_id) };
+      const updateDoc = {
+        $set: {
+          nameOne,
+          nameTwo,
+          nameThree,
+          reviewOne,
+          reviewTwo,
+          reviewThree
+        }
+      };
+      const result = await reviewCollection.updateOne(filter, updateDoc);
+      res.json(result)
+    });
+    app.get('/titles', async (req, res) => {
+      const cursor = titlesCollection.findOne({ _id: ObjectId("6320e348edfa77424998a0af") });
+      const result = await cursor;
+      if ((result.length) === 0) {
+        res.json("No documents found!")
+      } else {
+        res.json(result)
+      }
+    });
+    app.put('/update-title', async (req, res) => {
+      const data = req.body;
+      const {
+        _id,
+        title
+      } = data;
+      const filter = { _id: ObjectId(_id) };
+      const updateDoc = {
+        $set: {
+          title
+        }
+      };
+      const result = await titlesCollection.updateOne(filter, updateDoc);
+      res.json(result)
+    });
+    app.get('/contact-agent', async (req, res) => {
+      const cursor = agentContactCollection.findOne({ _id: ObjectId("6320e78cedfa7742499f6ec8") });
+      const result = await cursor;
+      if ((result.length) === 0) {
+        res.json("No documents found!")
+      } else {
+        res.json(result)
+      }
+    });
+    app.put('/update-agent', async (req, res) => {
+      const data = req.body;
+      const {
+        _id,
+        title,
+        number
+      } = data;
+      const filter = { _id: ObjectId(_id) };
+      const updateDoc = {
+        $set: {
+          title,
+          number
+        }
+      };
+      const result = await bannerCollection.updateOne(filter, updateDoc);
+      res.json(result)
     });
     app.get('/career-info', async (req, res) => {
       const query = { _id: ObjectId("6320ee02edfa774249a946bc") };
