@@ -73,6 +73,11 @@ async function run() {
     const servicesCollection = database.collection('services');
     const contactCollection = database.collection('contact');
     const authCollection = database.collection('authentication_001_auth');
+    const serviceIconsCollection = database.collection('service_icons');
+    const socialCollection = database.collection('social_links');
+    const mapCollection = database.collection('maps');
+    const imageCollection = database.collection('images');
+
 
     app.get('/slider', async (req, res) => {
       const cursor = bannerCollection.findOne({ _id: ObjectId("63249f4aedfa774249454c95") });
@@ -409,6 +414,31 @@ async function run() {
         res.json({login: false})
       }
     })
+
+    // get api for service icons
+    app.get('/service-icons', async (req, res)=>{
+      const cursor = serviceIconsCollection.findOne({_id: ObjectId("6326034f9664004f689dc50a")});
+      const result = await cursor;
+      res.json(result)
+    })
+
+    app.get('/social-links', async (req, res)=>{
+      const cursor = socialCollection.findOne({_id: ObjectId("6326091c9664004f689dc50b")});
+      const result = await cursor;
+      res.json(result)
+    })
+    app.get('/maps', async (req, res)=>{
+      const cursor = mapCollection.findOne({_id: ObjectId("63260d089664004f689dc50c")});
+      const result = await cursor;
+      res.json(result)
+    })
+    app.get('/images', async (req, res)=>{
+      const cursor = imageCollection.findOne({_id: ObjectId("63260edf9664004f689dc50d")});
+      const result = await cursor;
+      res.json(result)
+    })
+
+
 
     app.use((err, req, res, next) => {
       if (err) {
