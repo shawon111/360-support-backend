@@ -433,6 +433,26 @@ async function run() {
       }
     })
 
+    app.put('/admin-update', async (req, res)=>{
+      const data = req.body;
+      const cursor = authCollection.findOne({ _id: ObjectId("6324d3b711440911952a8f20") });
+      const authData = await cursor;
+      const filter = { _id: ObjectId("6324d3b711440911952a8f20") };
+      const updateDoc = {
+        $set: {
+          email: data.newEmail,
+          password: data.newPass
+        }
+      }
+      if(data.oldPass === authData.password && data.oldEmail === authData.email){
+        const result = await authCollection.updateOne(filter, updateDoc);
+        res.json(result)
+      }else{
+        res.json("incorrect")
+      }
+
+    })
+
     // get api for service icons
     app.get('/service-icons', async (req, res) => {
       const cursor = serviceIconsCollection.findOne({ _id: ObjectId("6326034f9664004f689dc50a") });
