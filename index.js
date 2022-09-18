@@ -84,7 +84,7 @@ async function run() {
       const featuredImagePath = featuredImageFile.path.replace("\\", "/");
 
       console.log("the image", featuredImagePath)
-      const filter = {_id: ObjectId("63260edf9664004f689dc50d")};
+      const filter = { _id: ObjectId("63260edf9664004f689dc50d") };
       const updateDoc = {
         $set: {
           logo: featuredImagePath,
@@ -93,18 +93,61 @@ async function run() {
       const result = await imageCollection.updateOne(filter, updateDoc)
       res.json(result)
     })
-    app.put('/add-career-logo', upload.fields([ { name: 'gallaryImages', maxCount: 1 }]), async (req, res) => {
+    app.put('/add-career-logo', upload.fields([{ name: 'gallaryImages', maxCount: 1 }]), async (req, res) => {
       const images = req.files;
       const careerLogoFile = images['gallaryImages'][0] && images['gallaryImages'][0];
       const careerImagePath = careerLogoFile && careerLogoFile.path.replace("\\", "/");
 
-      const filter = {_id: ObjectId("63260edf9664004f689dc50d")};
+      const filter = { _id: ObjectId("63260edf9664004f689dc50d") };
       const updateDoc = {
         $set: {
           careerLogo: careerImagePath
         }
       }
       const result = await imageCollection.updateOne(filter, updateDoc)
+      res.json(result)
+    })
+    app.put('/client-one', upload.fields([{ name: 'clientOne', maxCount: 1 }]), async (req, res) => {
+      const images = req.files;
+      const clientFile = images['clientOne'][0] && images['clientOne'][0];
+      const clientImagePath = clientFile && clientFile.path.replace("\\", "/");
+
+      const filter = { _id: ObjectId("6324a3f311440911952a8f1f") };
+      const updateDoc = {
+        $set: {
+          imgUrlOne: clientImagePath
+        }
+      }
+      const result = await reviewCollection.updateOne(filter, updateDoc)
+      res.json(result)
+    })
+    app.put('/client-two', upload.fields([{ name: 'clientTwo', maxCount: 1 }]), async (req, res) => {
+      const images = req.files;
+      const clientFile = images['clientTwo'][0] && images['clientTwo'][0];
+      const clientImagePath = clientFile && clientFile.path.replace("\\", "/");
+
+      const filter = { _id: ObjectId("6324a3f311440911952a8f1f") };
+      const updateDoc = {
+        $set: {
+          imgUrlTwo: clientImagePath
+        }
+      }
+      const result = await reviewCollection.updateOne(filter, updateDoc)
+      res.json(result)
+    })
+
+    app.put('/client-three', upload.fields([{ name: 'clientThree', maxCount: 1 }]), async (req, res) => {
+      const images = req.files;
+      const clientFile = images['clientThree'][0] && images['clientThree'][0];
+      const clientImagePath = clientFile && clientFile.path.replace("\\", "/");
+
+      const filter = { _id: ObjectId("6324a3f311440911952a8f1f") };
+      const updateDoc = {
+        $set: {
+          imgUrlThree: clientImagePath
+        }
+      }
+      const result = await reviewCollection.updateOne(filter, updateDoc)
       res.json(result)
     })
 
@@ -444,7 +487,7 @@ async function run() {
       }
     })
 
-    app.put('/admin-update', async (req, res)=>{
+    app.put('/admin-update', async (req, res) => {
       const data = req.body;
       const cursor = authCollection.findOne({ _id: ObjectId("6324d3b711440911952a8f20") });
       const authData = await cursor;
@@ -455,10 +498,10 @@ async function run() {
           password: data.newPass
         }
       }
-      if(data.oldPass === authData.password && data.oldEmail === authData.email){
+      if (data.oldPass === authData.password && data.oldEmail === authData.email) {
         const result = await authCollection.updateOne(filter, updateDoc);
         res.json(result)
-      }else{
+      } else {
         res.json("incorrect")
       }
 
