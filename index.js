@@ -78,18 +78,29 @@ async function run() {
     const mapCollection = database.collection('maps');
     const imageCollection = database.collection('images');
 
-    app.put('/add-logo', upload.fields([{ name: 'featuredImage', maxCount: 1 }, { name: 'gallaryImages', maxCount: 1 }]), async (req, res) => {
+    app.put('/add-logo', upload.fields([{ name: 'featuredImage', maxCount: 1 }]), async (req, res) => {
       const images = req.files;
       const featuredImageFile = images['featuredImage'][0];
       const featuredImagePath = featuredImageFile.path.replace("\\", "/");
-      const careerLogoFile = images['gallaryImages'][0];
-      const careerImagePath = careerLogoFile.path.replace("\\", "/");
 
-      console.log("the image", featuredImagePath, careerImagePath)
+      console.log("the image", featuredImagePath)
       const filter = {_id: ObjectId("63260edf9664004f689dc50d")};
       const updateDoc = {
         $set: {
           logo: featuredImagePath,
+        }
+      }
+      const result = await imageCollection.updateOne(filter, updateDoc)
+      res.json(result)
+    })
+    app.put('/add-career-logo', upload.fields([ { name: 'gallaryImages', maxCount: 1 }]), async (req, res) => {
+      const images = req.files;
+      const careerLogoFile = images['gallaryImages'][0] && images['gallaryImages'][0];
+      const careerImagePath = careerLogoFile && careerLogoFile.path.replace("\\", "/");
+
+      const filter = {_id: ObjectId("63260edf9664004f689dc50d")};
+      const updateDoc = {
+        $set: {
           careerLogo: careerImagePath
         }
       }
