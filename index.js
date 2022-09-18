@@ -78,6 +78,24 @@ async function run() {
     const mapCollection = database.collection('maps');
     const imageCollection = database.collection('images');
 
+    app.put('/add-logo', upload.fields([{ name: 'featuredImage', maxCount: 1 }, { name: 'gallaryImages', maxCount: 1 }]), async (req, res) => {
+      const images = req.files;
+      const featuredImageFile = images['featuredImage'][0];
+      const featuredImagePath = featuredImageFile.path.replace("\\", "/");
+      const careerLogoFile = images['gallaryImages'][0];
+      const careerImagePath = careerLogoFile.path.replace("\\", "/");
+
+      console.log("the image", featuredImagePath, careerImagePath)
+      const filter = {_id: ObjectId("63260edf9664004f689dc50d")};
+      const updateDoc = {
+        $set: {
+          logo: featuredImagePath,
+          careerLogo: careerImagePath
+        }
+      }
+      const result = await imageCollection.updateOne(filter, updateDoc)
+      res.json(result)
+    })
 
     app.get('/slider', async (req, res) => {
       const cursor = bannerCollection.findOne({ _id: ObjectId("63249f4aedfa774249454c95") });
@@ -404,36 +422,85 @@ async function run() {
     })
 
     // get api for admin login
-    app.get('/admin-login', async (req, res)=>{
+    app.get('/admin-login', async (req, res) => {
       const data = req.query;
-      const cursor = authCollection.findOne({_id: ObjectId("6324d3b711440911952a8f20")});
+      const cursor = authCollection.findOne({ _id: ObjectId("6324d3b711440911952a8f20") });
       const result = await cursor;
-      if(data.email == result.email && data.pass == result.password){
-        res.json({login: true})
-      }else{
-        res.json({login: false})
+      if (data.email == result.email && data.pass == result.password) {
+        res.json({ login: true })
+      } else {
+        res.json({ login: false })
       }
     })
 
     // get api for service icons
-    app.get('/service-icons', async (req, res)=>{
-      const cursor = serviceIconsCollection.findOne({_id: ObjectId("6326034f9664004f689dc50a")});
+    app.get('/service-icons', async (req, res) => {
+      const cursor = serviceIconsCollection.findOne({ _id: ObjectId("6326034f9664004f689dc50a") });
       const result = await cursor;
       res.json(result)
     })
 
-    app.get('/social-links', async (req, res)=>{
-      const cursor = socialCollection.findOne({_id: ObjectId("6326091c9664004f689dc50b")});
+    app.put('/update-service-icons', async (req, res) => {
+      const data = req.body;
+      const { _id,
+        serviceOneIcon,
+        serviceTwoIcon,
+        serviceThreeIcon, } = data;
+      const filter = { _id: ObjectId(_id) }
+      const updateDoc = {
+        $set: {
+          serviceOneIcon,
+          serviceTwoIcon,
+          serviceThreeIcon,
+        }
+      }
+      const result = await serviceIconsCollection.updateOne(filter, updateDoc);
+      console.log("hitted")
+      res.json(result);
+    })
+
+    app.get('/social-links', async (req, res) => {
+      const cursor = socialCollection.findOne({ _id: ObjectId("6326091c9664004f689dc50b") });
       const result = await cursor;
       res.json(result)
     })
-    app.get('/maps', async (req, res)=>{
-      const cursor = mapCollection.findOne({_id: ObjectId("63260d089664004f689dc50c")});
+    app.put('/update-social-links', async (req, res) => {
+      const data = req.body;
+      const { _id,
+        facebook,
+        linkedin, } = data;
+      const filter = { _id: ObjectId(_id) }
+      const updateDoc = {
+        $set: {
+          facebook,
+          linkedin,
+        }
+      }
+      const result = await socialCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    })
+    app.get('/maps', async (req, res) => {
+      const cursor = mapCollection.findOne({ _id: ObjectId("63260d089664004f689dc50c") });
       const result = await cursor;
       res.json(result)
     })
-    app.get('/images', async (req, res)=>{
-      const cursor = imageCollection.findOne({_id: ObjectId("63260edf9664004f689dc50d")});
+    app.put('/update-maps', async (req, res) => {
+      const data = req.body;
+      const { _id,
+        contact,
+        career, } = data;
+      const filter = { _id: ObjectId(_id) }
+      const updateDoc = {
+        $set: {
+          contact,
+          career,
+        }
+      }
+      const result = await mapCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    })
+    app.get('/images', async (req, res) => {
+      const cursor = imageCollection.findOne({ _id: ObjectId("63260edf9664004f689dc50d") });
       const result = await cursor;
       res.json(result)
     })
