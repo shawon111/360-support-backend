@@ -5,7 +5,7 @@ const multer = require('multer');
 const path = require('path');
 app.use(cors());
 app.use(express.json());
-app.use('/public', express.static('public'));
+app.use('/uploads', express.static('uploads'));
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 const { info } = require('console');
