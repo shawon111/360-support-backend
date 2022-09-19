@@ -56,7 +56,7 @@ const upload = multer({
 })
 
 // mongodb connection
-const uri = `mongodb+srv://"shawon_01":"f7fv9aeGekgdwQ5s"@cluster1.7lnyspm.mongodb.net/?retryWrites=true&w=majority`
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster1.7lnyspm.mongodb.net/?retryWrites=true&w=majority`
 const client = new MongoClient(uri);
 async function run() {
   try {
