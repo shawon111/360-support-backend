@@ -58,7 +58,7 @@ const upload = multer({
 // mongodb connection
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster1.7lnyspm.mongodb.net/?retryWrites=true&w=majority`
 const client = new MongoClient(uri);
-async function run() {
+async function run() { 
   try {
     await client.connect();
     const database = client.db('project-360');
